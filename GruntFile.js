@@ -3,17 +3,26 @@ module.exports = function(grunt) {
 
   require('matchdep')
     .filterDev('grunt-*')
-    .filter(function (n) { return n !== 'grunt-cli'})
     .forEach(grunt.loadNpmTasks);
 
   grunt.initConfig({
-    lint: {
-      files: ['src/**.js']
+    jshint : {
+      main : {
+        src : ['src/**/*.js'],
+        options : {
+          jshintrc : '.jshintrc'
+        }
+      }
     },
     jasmine: {
       all: {
-        src: ['vendor/d3.js','vendor/d3.chart.js','vendor/jquery-1.10.1.min.js','src/**/*.js'],
+        src: ['src/**/*.js'],
         options: {
+          vendor : [
+            'vendor/d3.js',
+            'vendor/d3.chart.js',
+            'vendor/jquery-1.10.1.min.js'
+          ],
           specs: "spec/*Spec.js",
           helpers: "spec/helpers/*.js"
         }
@@ -29,7 +38,7 @@ module.exports = function(grunt) {
     watch: {
       test: {
         files: ['src/**/*.js', 'spec/**/*.js'],
-        tasks: ['jasmine:all:build'],
+        tasks: ['jasmine:all:build', 'jshint'],
         options: {
           rewatch: true
         }
@@ -48,5 +57,12 @@ module.exports = function(grunt) {
     'open:testRunner',
     'watch:test'
   ]);
+
+  grunt.registerTask('test', [
+    'jshint',
+    'jasmine'
+  ]);
+
+  grunt.registerTask('default', ['test']);
 
 }
