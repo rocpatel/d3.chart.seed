@@ -1,54 +1,50 @@
 (function (){
-  d3.chart('ExampleChart', {
-    initialize: function(options) {
-      var chart = this;
+  // Example from http://misoproject.com/d3-chart/
 
-      this.w = chart.base.attr("width");
-      this.h = chart.base.attr("height");
+  // define a new chart type: a circle chart
+  d3.chart("ExampleChart", {
 
-      chart.margins = {
-        top: 10,
-        bottom: 35,
-        left: 50,
-        right: 0
-      };
+    initialize: function() {
+      // create a layer of circles that will go into
+      // a new group element on the base of the chart
+      this.layer("circles", this.base.append("g"), {
 
-      chart.x = d3.scale.linear().range([0, chart.w - chart.margins.left]);
-      chart.y = d3.scale.linear().range([this.h - chart.margins.bottom, 0]);
-
-      chart.base
-        .classed('ExampleChart',true);
-
-     chart.layer('exampleLayer', chart,{
+        // select the elements we wish to bind to and
+        // bind the data to them.
         dataBind: function(data) {
+          return this.selectAll("circle")
+            .data(data);
         },
+
+        // insert actual circles
         insert: function() {
+          return this.append("circle");
+        },
+
+        // define lifecycle events
+        events: {
+
+          // paint new elements, but set their radius to 0
+          // and make them red
+          "enter": function() {
+            return this.attr("cx", function(d) {
+              return d * 10;
+            })
+              .attr("cy", 10)
+              .attr("r", 0)
+              .style("fill", "red");
+          },
+          // then transition them to a radius of 5 and change
+          // their fill to blue
+          "enter:transition": function() {
+            return this
+              .delay(500)
+              .attr("r", 5)
+              .style("fill", "blue");
+          }
         }
       });
-
-      chart.layer('exampleLayer').on('enter', function() {});
-      chart.layer('exampleLayer').on('exit', function() {});
-      chart.layer('exampleLayer').on('update', function() {});
-
-
-    },
-    width: function(newWidth) {
-      if (arguments.length === 0) {
-        return this.w;
-      }
-
-      this.w = newWidth;
-
-      return this;
-    },
-    height: function(newHeight) {
-      if (arguments.length === 0) {
-        return this.h;
-      }
-
-      this.h = newHeight;
-
-      return this;
     }
   });
+
 })();
