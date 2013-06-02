@@ -28,6 +28,23 @@ module.exports = function(grunt) {
         }
       }
     },
+    copy: {
+      dist : {
+        src : 'src/example.js',
+        dest : 'dist/example.js'
+      }
+    },
+    uglify: {
+      dist: {
+        src: 'dist/example.js',
+        dest : 'dist/example.min.js',
+        options: {
+          sourceMap : 'dist/example.map',
+          sourceMappingURL : 'example.map',
+          sourceMapPrefix : 1
+        }
+      }
+    },
     connect: {
       test: {
         options: {
@@ -63,6 +80,11 @@ module.exports = function(grunt) {
     'jasmine'
   ]);
 
-  grunt.registerTask('default', ['test']);
+  grunt.registerTask('build', [
+    'copy',
+    'uglify'
+  ]);
+
+  grunt.registerTask('default', ['test', 'build']);
 
 }
