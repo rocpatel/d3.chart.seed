@@ -31,7 +31,7 @@ An example seed to create reusable [d3][] charts using the [d3.chart][] framewor
 
 ## License
 Copyright (c) 2012 Rakesh Patel  
-Licensed under the MIT license.
+Licensed under the BSD license.
 
 [d3]: http://d3js.org
 [d3.chart]: http://misoproject.com/d3-chart/
