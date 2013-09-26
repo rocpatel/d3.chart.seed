@@ -1,5 +1,6 @@
 d3.chart.seed
 =============
+![Build Status] (https://www.codeship.io/projects/46009540-08ea-0131-c7f8-0278930b9bbc/status)
 
 An example seed to create reusable [d3][] charts using the [d3.chart][] framework.
 
